@@ -4,7 +4,7 @@
 
 Puedes **copiar, distribuir, remezclar, adaptar y usar** este material (incluso con fines comerciales), siempre que otorgues **atribución** adecuada.
 
-Atribución sugerida: “BuenOsos vs MalOsos — Reglas y set de cartas (CC BY 4.0). Autor: **Mtro. Omar Francisco Velazquez Juarez** ([ovelazquezj@gmail.com](mailto:ovelazquezj@gmail.com)). adaptación asistida por ChatGPT.”
+Atribución sugerida: “BuenOsos vs MalOsos — Reglas y set de cartas (CC BY 4.0). Autor: **Mtro. Omar Francisco Velazquez Juarez** ([ovelazquezj@gmail.com](mailto:ovelazquezj@gmail.com)). Co-creación/adaptación asistida por ChatGPT.”
 
 Juego didáctico por equipos para modelar **riesgo país**, **fallas en cascada**, **modelo de adversario** y **tail risk**, destacando el papel de **DRP (Disaster Recovery Plan)** y **BCP (Business Continuity Plan)**.
 
