@@ -1,5 +1,11 @@
 # Reglas del juego: **BuenOsos vs MalOsos**
 
+**Licencia:** Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Puedes **copiar, distribuir, remezclar, adaptar y usar** este material (incluso con fines comerciales), siempre que otorgues **atribución** adecuada.
+
+Atribución sugerida: “BuenOsos vs MalOsos — Reglas y set de cartas (CC BY 4.0). Autor: **Mtro. Omar Francisco Velazquez Juarez** ([ovelazquezj@gmail.com](mailto:ovelazquezj@gmail.com)). adaptación asistida por ChatGPT.”
+
 Juego didáctico por equipos para modelar **riesgo país**, **fallas en cascada**, **modelo de adversario** y **tail risk**, destacando el papel de **DRP (Disaster Recovery Plan)** y **BCP (Business Continuity Plan)**.
 
 ---
@@ -20,7 +26,8 @@ Juego didáctico por equipos para modelar **riesgo país**, **fallas en cascada*
    * Representan sistemas del país.
    * Atributos mínimos:
 
-     * **INT (Integridad)**
+     * **INT (Integridad actual)**
+     * **INTmáx (Integridad máxima / valor inicial)**
      * **Criticidad (1–5)**
      * **Dependencias** (2–4 servicios)
      * **Efecto al caer** (dispara cascada)
@@ -154,9 +161,14 @@ Para evitar “ataques mágicos”, MalOsos debe seguir una secuencia de campañ
 
 **Regla**: Para jugar una carta de **Impacto Alto**, MalOsos debe haber completado las fases previas indicadas en el texto de la carta.
 
-* Ejemplo: “Ransomware Operacional” requiere **Acceso + Persistencia** ya completados.
+* Ejemplo: “Ransomware Operacional” requeriría **Acceso + Persistencia**.
 
-### 4.4 Acciones básicas (para evitar bloqueos por mala mano)
+**Límite de aceleración (anti-salto):**
+
+* MalOsos puede marcar como “completada” **máximo 1 fase nueva por turno** (Recon básico no cuenta como fase permanente).
+* Si en un mismo turno juega varias cartas de fase (por presupuesto), solo la primera avanza la línea; las demás aplican su efecto pero **no avanzan** fases adicionales.
+
+### 4.4 Acciones básicas (para evitar bloqueos por mala mano) (para evitar bloqueos por mala mano)
 
 Cada equipo puede ejecutar **1 acción básica por turno** (costo 0). No requiere carta.
 
@@ -477,12 +489,26 @@ Ejemplo de regla:
 * Si hay disputa, se resuelve por:
 
   1. Texto de la carta
-  2. Regla de cascada
-  3. Decisión del facilitador basada en coherencia del escenario
+  2. Reglas del turno (sección 5)
+  3. Reglas de cascada (sección 7)
+  4. Reglas de impacto país (sección 8)
+  5. Decisión del facilitador basada en coherencia del escenario
 
----
+### 11.1 Resolución de “azar” sin dados (opción determinista)
 
-## 12) Cierre y debrief (obligatorio)
+Si el grupo no quiere usar azar, aplica estas reglas:
+
+* **Descartar al azar**: en lugar de azar, el equipo afectado descarta la carta de **mayor costo**; si hay empate, descarta una de ellas a elección.
+* **Elecciones ambiguas (por ejemplo, “elige un dependiente”)**: el facilitador elige el dependiente de **Criticidad más alta**; si hay empate, el de **INT más baja**.
+
+### 11.2 Aclaración de “cancelar efectos secundarios”
+
+Cuando una carta diga “cancela el efecto secundario”:
+
+* Se cancela **cualquier** efecto adicional que no sea el daño/estado principal al objetivo.
+* Ejemplos de efectos secundarios: propagación extra, penalización social adicional, daño a otros servicios, “efecto al caer adicional” descrito en la carta.
+
+## 12) Cierre y debrief (obligatorio) (obligatorio)
 
 Al finalizar la partida, cada equipo entrega verbalmente:
 
@@ -726,7 +752,8 @@ Notas:
 
 * Tipo: BuenOsos – Prevención
 * Costo: 3
-* Efecto: Elige 1 servicio físico (S1–S5, S11–S12) o digital (S6–S10). Cuando ese servicio caiga a 0 por primera vez, en lugar de Caído queda en **INT = 1** y **Degradado**.
+* Efecto: Elige 1 servicio. Cuando ese servicio llegue a 0 por primera vez, en lugar de Caído queda en **INT = 1** y **Degradado**.
+* Restricción: cada servicio solo puede beneficiarse de este efecto **1 vez por juego** (no se puede “encadenar” redundancias sobre el mismo servicio).
 
 4. **Hardening operacional**
 
