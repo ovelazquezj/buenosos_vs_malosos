@@ -45,10 +45,7 @@ app.use('/api/games', gamesRouter);
 
 const server = http.createServer(app);
 
-const wss = new WebSocketServer({
-  server,
-  path: undefined, // Accept all WS paths; we filter in setupWebSocket
-});
+const wss = new WebSocketServer({ noServer: true });
 
 // Handle WS upgrade manually to support /ws/games/:gameId?token=...
 server.on('upgrade', (req, socket, head) => {
