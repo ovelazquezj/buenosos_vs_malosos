@@ -267,6 +267,33 @@
 
 ---
 
+### 2026-02-23 — Sprint 3: Manual de Usuario + Test E2E Partida Completa
+
+**Arquitecto / Claude Code** ✅ COMPLETADO
+
+- [DOC] `MANUAL_USUARIO.md` creado en raíz del proyecto — 12 secciones orientadas a la UI web
+  - Requisitos (3 personas o 1 en 3 pestañas), acceso, crear/unirse, iniciar
+  - Tablero: marcadores, 12 servicios con colores de estado, campaña MalOsos, panel fase
+  - Flujo de turno completo (7 fases comentadas: MAINTENANCE→EVENT→MALOSOS_PREP→...→TURN_END)
+  - Cómo jugar una carta, acción básica, condiciones de victoria
+  - Ejemplo de Turno 1 con decisiones comentadas
+  - FAQ: cartas deshabilitadas, sin cartas útiles, Recon básico vs M01, etc.
+- [TEST] `tests/e2e/test_full_game.py` creado — 3 tests E2E:
+  - `test_full_game_walkthrough`: partida completa 2 turnos (REST+WS+Selenium)
+  - `test_ui_phase_transitions`: verifica que UI refleja cambios de fase vía WS
+  - `test_session_restore_from_localstorage`: verifica restauración de sesión
+- [TEST] Helper `ws_send_action()`: conecta WS, espera estado inicial del servidor,
+  envía acción, captura respuesta — evita race conditions con el GAME_STATE inicial
+- [TEST] Helper `find_playable_card()`: selección adaptativa de cartas sin requisitos
+  ni targeting complejo — robusto ante cualquier mano aleatoria
+- [TEST] Helper `inject_session()`: inyecta sesión en localStorage + refresh para
+  simular jugador que carga la app con partida activa
+- [DEPS] `tests/e2e/requirements.txt` actualizado: agregado `websocket-client==1.8.0`
+- [ARCH] Screenshots generados: 01-09 para test principal, UI01-02, SESSION01-02
+- [NOTA] Tests asumen backend en localhost:3001 y frontend en localhost:5173
+
+---
+
 ## Notas de integración
 
 - FRD02 conecta al backend en `http://localhost:3001` (configurable via `VITE_API_URL`)
