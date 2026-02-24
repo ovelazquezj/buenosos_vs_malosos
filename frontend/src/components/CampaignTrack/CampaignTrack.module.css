@@ -1,0 +1,62 @@
+.track {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+}
+
+.trackLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ef4444;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.phases {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.phase {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+  gap: 1px;
+  transition: background 0.2s, border-color 0.2s;
+  position: relative;
+}
+
+.completed {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.pending {
+  background: #0f172a;
+  border-color: #334155;
+  color: #475569;
+}
+
+.phaseIcon {
+  font-size: 1.1rem;
+}
+
+.phaseNum {
+  font-size: 0.55rem;
+  font-weight: 700;
+  line-height: 1;
+}

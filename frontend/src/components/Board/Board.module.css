@@ -1,0 +1,45 @@
+.board {
+  position: relative;
+  background: #0f172a;
+  border-radius: 12px;
+  border: 1px solid #1e293b;
+  padding: 1rem;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.worldmap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: #f1f5f9;
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+.campaignRow {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1rem;
+}
+
+.servicesGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .servicesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .servicesGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

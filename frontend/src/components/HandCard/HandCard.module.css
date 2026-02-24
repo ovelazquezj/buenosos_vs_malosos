@@ -1,0 +1,106 @@
+.card {
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 0.85rem 0.75rem;
+  border: 2px solid transparent;
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: default;
+  min-width: 120px;
+  max-width: 150px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  outline: none;
+  color: #f1f5f9;
+}
+
+.card:focus-visible {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+.sideBuenos { border-color: #3b82f6; }
+.sideMalos { border-color: #ef4444; }
+.sideEvento { border-color: #f59e0b; }
+
+.disabled {
+  opacity: 0.5;
+}
+
+.card:not(.disabled):hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.iconWrap {
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.sideBuenos .iconWrap { color: #3b82f6; }
+.sideMalos .iconWrap { color: #ef4444; }
+.sideEvento .iconWrap { color: #f59e0b; }
+
+.cost {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 800;
+  background: #0f172a;
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: #e2e8f0;
+}
+
+.highImpact {
+  font-size: 0.55rem;
+  font-weight: 700;
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  padding: 1px 4px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.cardName {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  line-height: 1.2;
+}
+
+.cardCategory {
+  font-size: 0.65rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.playBtn {
+  margin-top: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 5px;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  background: #334155;
+  color: #e2e8f0;
+  width: 100%;
+}
+
+.playBtn:hover:not(:disabled) {
+  background: #475569;
+}
+
+.playBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

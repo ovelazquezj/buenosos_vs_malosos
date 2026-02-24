@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    volumes:
+      - db_data:/app/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3001/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  e2e:
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
+    depends_on:
+      frontend:
+        condition: service_started
+      backend:
+        condition: service_healthy
+    environment:
+      - BASE_URL=http://frontend
+      - API_URL=http://backend:3001
+      - SELENIUM_HEADLESS=true
+    volumes:
+      - ./artifacts/selenium:/tests/artifacts
+    command: ["pytest", "-v", "--tb=short", "test_bdd_scenarios.py"]
+
+volumes:
+  db_data:

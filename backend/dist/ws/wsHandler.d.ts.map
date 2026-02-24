@@ -1,0 +1,1 @@
+{"version":3,"file":"wsHandler.d.ts","sourceRoot":"","sources":["../../src/ws/wsHandler.ts"],"names":[],"mappings":"AAAA,OAAO,EAAa,eAAe,EAAE,MAAM,IAAI,CAAC;AA0EhD,wBAAgB,cAAc,CAAC,GAAG,EAAE,eAAe,GAAG,IAAI,CAwFzD;AA2HD,wBAAgB,eAAe,CAAC,MAAM,EAAE,MAAM,EAAE,OAAO,EAAE,OAAO,GAAG,IAAI,CAEtE"}
