@@ -1,5 +1,5 @@
 import { useWebSocket } from './useWebSocket';
-import type { GameState } from '../types/game.types';
+import type { GameState, Seat } from '../types/game.types';
 
 export interface UseGameResult {
   gameState: GameState | null;
@@ -10,25 +10,23 @@ export interface UseGameResult {
   advancePhase: () => void;
 }
 
-export function useGame(gameId: string | null, token: string | null): UseGameResult {
+export function useGame(
+  gameId: string | null,
+  token: string | null,
+  seat: Seat | 'FACILITATOR'
+): UseGameResult {
   const { gameState, sendMessage, connected, error } = useWebSocket(gameId, token);
 
   const playCard = (cardId: string, targets?: string[]) => {
-    sendMessage({
-      type: 'PLAY_CARD',
-      payload: { cardId, targets: targets ?? [] },
-    });
+    sendMessage({ type: 'PLAY_CARD', side: seat, cardId, targets: targets ?? [] });
   };
 
   const useBasicAction = (target?: string) => {
-    sendMessage({
-      type: 'USE_BASIC_ACTION',
-      payload: { target },
-    });
+    sendMessage({ type: 'USE_BASIC_ACTION', side: seat, target: target ?? null });
   };
 
   const advancePhase = () => {
-    sendMessage({ type: 'ADVANCE_PHASE', payload: {} });
+    sendMessage({ type: 'ADVANCE_PHASE' });
   };
 
   return { gameState, connected, error, playCard, useBasicAction, advancePhase };

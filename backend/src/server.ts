@@ -5,6 +5,7 @@ import { WebSocketServer } from 'ws';
 import { runMigrations } from './db/migrations';
 import gamesRouter from './api/gamesRouter';
 import { setupWebSocket } from './ws/wsHandler';
+import { ALL_CARDS } from './data/cards';
 
 // ============================================================
 // CONFIGURATION
@@ -38,6 +39,11 @@ app.get('/health', (_req, res) => {
 
 // REST API
 app.use('/api/games', gamesRouter);
+
+// Card catalog (static game data)
+app.get('/api/cards', (_req, res) => {
+  res.json({ cards: ALL_CARDS });
+});
 
 // ============================================================
 // HTTP + WEBSOCKET SERVER

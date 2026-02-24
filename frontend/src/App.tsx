@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { getGame } from './api/gameApi';
 import { Board } from './components/Board/Board';
@@ -8,6 +8,8 @@ import { Markers } from './components/Markers/Markers';
 import { PhasePanel } from './components/PhasePanel/PhasePanel';
 import { useGame } from './hooks/useGame';
 import type { Card, GameState, Seat } from './types/game.types';
+
+const BASE_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:3001';
 
 type AppScreen = 'lobby' | 'game';
 type MobileTab = 'tablero' | 'mano' | 'log' | 'marcadores';
@@ -21,7 +23,7 @@ interface GameSession {
 const EMPTY_GAME_STATE: GameState = {
   id: '',
   status: 'lobby',
-  config: { turnLimit: 8, budgetPerTurn: 10, intermittenceMode: 'STANDARD' },
+  config: { turnLimit: 8, budgetPerTurn: 8, intermittenceMode: 'deterministic', mapId: 'standard' },
   services: {},
   seats: {
     BUENOSOS: { budgetRemaining: 0, hand: [], deck: [], discard: [], basicActionUsed: false },
@@ -36,37 +38,23 @@ const EMPTY_GAME_STATE: GameState = {
   servicesRecovered: [],
   servicesThatWentDown: [],
   log: [],
+  createdAt: 0,
+  updatedAt: 0,
 };
-
-// Mock card catalog (real data comes from backend via WS game state)
-const CARD_CATALOG: Record<string, Card> = {};
-
-function resolveCards(cardIds: string[]): Card[] {
-  return cardIds.map(id => {
-    if (CARD_CATALOG[id]) return CARD_CATALOG[id];
-    // Fallback placeholder card
-    return {
-      id,
-      name: id,
-      side: 'BUENOSOS',
-      category: 'PREVENTION',
-      cost: 1,
-      effects: [],
-      duration: 'INSTANT',
-    } satisfies Card;
-  });
-}
 
 function GameView({
   session,
   onExit,
+  cardCatalog,
 }: {
   session: GameSession;
   onExit: () => void;
+  cardCatalog: Record<string, Card>;
 }) {
   const { gameState, connected, error, playCard, useBasicAction, advancePhase } = useGame(
     session.gameId,
-    session.token
+    session.token,
+    session.seat
   );
 
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
@@ -78,7 +66,12 @@ function GameView({
   const seatState =
     session.seat !== 'FACILITATOR' ? activeState.seats[session.seat] : null;
   const handCardIds = seatState?.hand ?? [];
-  const handCards = resolveCards(handCardIds);
+  const handCards = handCardIds.map(id =>
+    cardCatalog[id] ?? ({
+      id, name: id, side: 'BUENOSOS' as const, category: 'PREVENTION' as const,
+      cost: 1, effects: [], duration: 'immediate' as const,
+    })
+  );
 
   const handlePlayCard = (cardId: string) => {
     const card = handCards.find(c => c.id === cardId);
@@ -208,6 +201,22 @@ function GameView({
 export default function App() {
   const [screen, setScreen] = useState<AppScreen>('lobby');
   const [session, setSession] = useState<GameSession | null>(null);
+  const [cardCatalog, setCardCatalog] = useState<Record<string, Card>>({});
+  const catalogFetched = useRef(false);
+
+  // Fetch card catalog once on mount
+  useEffect(() => {
+    if (catalogFetched.current) return;
+    catalogFetched.current = true;
+    fetch(`${BASE_URL}/api/cards`)
+      .then(r => r.json())
+      .then((data: { cards: Card[] }) => {
+        const catalog: Record<string, Card> = {};
+        for (const card of data.cards) catalog[card.id] = card;
+        setCardCatalog(catalog);
+      })
+      .catch(() => { /* silently ignore — fallback placeholders will show */ });
+  }, []);
 
   // Try to restore session from localStorage
   useEffect(() => {
@@ -242,7 +251,7 @@ export default function App() {
   };
 
   if (screen === 'game' && session) {
-    return <GameView session={session} onExit={handleExit} />;
+    return <GameView session={session} onExit={handleExit} cardCatalog={cardCatalog} />;
   }
 
   return <Lobby onGameJoined={handleGameJoined} />;

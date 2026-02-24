@@ -77,6 +77,7 @@ export interface GameState {
     turnLimit: number;
     budgetPerTurn: number;
     intermittenceMode: string;
+    mapId?: string;
   };
   services: Record<string, Service>;
   seats: Record<Seat, SeatState>;
@@ -90,6 +91,8 @@ export interface GameState {
   servicesRecovered: string[];
   servicesThatWentDown: string[];
   log: unknown[];
+  createdAt: number;
+  updatedAt: number;
 }
 
 export interface Player {

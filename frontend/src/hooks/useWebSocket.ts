@@ -5,10 +5,7 @@ const WS_BASE = (import.meta.env.VITE_API_URL as string | undefined)
   ? (import.meta.env.VITE_API_URL as string).replace(/^http/, 'ws')
   : 'ws://localhost:3001';
 
-export interface WsMessage {
-  type: string;
-  payload?: unknown;
-}
+export type WsMessage = Record<string, unknown>;
 
 export interface UseWebSocketResult {
   gameState: GameState | null;
@@ -46,7 +43,7 @@ export function useWebSocket(gameId: string | null, token: string | null): UseWe
       try {
         const msg = JSON.parse(event.data as string) as WsMessage;
         if (msg.type === 'GAME_STATE') {
-          setGameState(msg.payload as GameState);
+          setGameState(msg.state as GameState);
         }
       } catch {
         // ignore parse errors

@@ -11,6 +11,7 @@ const ws_1 = require("ws");
 const migrations_1 = require("./db/migrations");
 const gamesRouter_1 = __importDefault(require("./api/gamesRouter"));
 const wsHandler_1 = require("./ws/wsHandler");
+const cards_1 = require("./data/cards");
 // ============================================================
 // CONFIGURATION
 // ============================================================
@@ -35,6 +36,10 @@ app.get('/health', (_req, res) => {
 });
 // REST API
 app.use('/api/games', gamesRouter_1.default);
+// Card catalog (static game data)
+app.get('/api/cards', (_req, res) => {
+    res.json({ cards: cards_1.ALL_CARDS });
+});
 // ============================================================
 // HTTP + WEBSOCKET SERVER
 // ============================================================
